@@ -33,7 +33,7 @@ class MenuEvent extends WeixinCoreController
                     },
                     {
                         "type": "click",
-                        "name": "产品分类",
+                        "name": "产品列表",
                         "key": "category"
                     },
                     {

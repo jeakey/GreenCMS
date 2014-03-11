@@ -17,7 +17,7 @@ class ApiController extends WeixinCoreController
     public function index()
     {
 
-        \Think\Log::record('收到消息' . date('Ymd H:m:s'));
+        \Think\Log::record('收到消息' . date('Ymd H:m:s').'Form:'.get_client_ip());
 
         $weixin = new ThinkWechat (get_opinion('weixin_token'));
 
@@ -30,6 +30,7 @@ class ApiController extends WeixinCoreController
         /* 响应当前请求 */
         $weixin->response($content, $type);
 
+        \Think\Log::record('发送消息' . date('Ymd H:m:s'));
 
     }
 
