@@ -10,24 +10,14 @@
 namespace Common\Event;
 
 
-class WordpressEvent
-{
+class WordpressEvent {
 
-    private $file;
-
-    function __construct($file=null)
+    public function postImport()
     {
-        $this->file = $file;
-    }
+        if (!file_exists(WEB_CACHE_PATH . '/wordpress.xml')) exit();
 
 
-    public function postImport($filename)
-    {
-
-        if (!file_exists($filename)) exit();
-
-
-        $wordpress = simplexml_load_file($filename);
+        $wordpress = simplexml_load_file(WEB_CACHE_PATH . '/wordpress.xml');
 
         $namespaces = $wordpress->getNamespaces(true);
         $wordpress_channel = $wordpress->channel;
@@ -51,11 +41,11 @@ class WordpressEvent
 
                 foreach ($tag_cat as $key => $value) {
                     if ($value["@attributes"]["domain"] == 'category') {
-                        $nicename = D('Cats', 'Logic')->detail($value["@attributes"]["nicename"]);
+                        $nicename=D('Cats', 'Logic')->detail($value["@attributes"]["nicename"]);
                         $cat_id = (int)$nicename['cat_id'];
                         array_push($post_cat_temp, $cat_id);
                     } elseif ($value["@attributes"]["domain"] == 'post_tag') {
-                        $nicename = D('Tags', 'Logic')->detail($value["@attributes"]["nicename"]);
+                        $nicename=D('Tags', 'Logic')->detail($value["@attributes"]["nicename"]);
                         $tag_id = (int)$nicename['tag_id'];
                         array_push($post_tag_temp, $tag_id);
                     } else {
@@ -109,12 +99,12 @@ class WordpressEvent
 
     }
 
-    public function tagImport($filename)
+    public function tagImport()
     {
-        if (!file_exists($filename)) exit();
+        if (!file_exists(WEB_CACHE_PATH . '/wordpress.xml')) exit();
 
 
-        $wordpress = simplexml_load_file($filename);
+        $wordpress = simplexml_load_file(WEB_CACHE_PATH . '/wordpress.xml');
         $namespaces = $wordpress->getNamespaces(true);
         $wordpress_channel = $wordpress->channel;
         foreach ($namespaces as $key => $value) {
@@ -139,11 +129,11 @@ class WordpressEvent
     }
 
 
-    public function catImport($filename)
+    public function catImport()
     {
-        if (!file_exists($filename)) exit();
+        if (!file_exists(WEB_CACHE_PATH . '/wordpress.xml')) exit();
 
-        $wordpress = simplexml_load_file($filename);
+        $wordpress = simplexml_load_file(WEB_CACHE_PATH . '/wordpress.xml');
         $namespaces = $wordpress->getNamespaces(true);
         $wordpress_channel = $wordpress->channel;
         foreach ($namespaces as $key => $value) {
@@ -159,7 +149,7 @@ class WordpressEvent
             $cat_temp['cat_id'] = $item['term_id'];
             $cat_temp['cat_slug'] = $item['category_nicename'];
             $cat_temp['cat_name'] = $item['cat_name'];
-            $cat_father = D('Cats', 'Logic')->detail($item['category_parent']);
+            $cat_father=D('Cats', 'Logic')->detail($item['category_parent']) ;
             $cat_temp['cat_father'] = (int)$cat_father['cat_id'];
             D('Cats', 'Logic')->data($cat_temp)->add();
         }

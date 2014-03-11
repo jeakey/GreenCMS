@@ -21,10 +21,10 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 
 /**
- * 系统调试设置true
- * 项目正式部署后请设置为
+ * 系统调试设置
+ * 项目正式部署后请设置为false
  */
-define('APP_DEBUG',true );
+define('APP_DEBUG', false);
 
 /**
  * 定义网站根目录
@@ -39,8 +39,6 @@ define ('APP_PATH', './Application/');
 
 if (file_exists(WEB_ROOT . "db_config.php")) require(WEB_ROOT . "db_config.php");
 elseif (strtolower($_GET['m']) != 'install') die('<a href="install.php">click here to install</a>');
-
-
 if (file_exists(WEB_ROOT . "const_config.php")) require(WEB_ROOT . "const_config.php");
 
 
