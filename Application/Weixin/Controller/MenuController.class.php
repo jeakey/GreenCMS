@@ -9,15 +9,42 @@
 
 namespace Weixin\Controller;
 
+use Weixin\Event\MenuEvent;
 
 class MenuController extends WeixinBaseController
 {
     public function index()
     {
+        $Menu = new MenuEvent();
+        $Weixin_menu_decode = json_decode(trim(C('Weixin_menu')), true);
+        $Weixin_menu_decode=$Weixin_menu_decode['button'];
+        dump($Weixin_menu_decode);
+
+
         $this->display();
     }
 
-    public function add()
+    public function del()
+    {
+        $Menu = new MenuEvent();
+        $Menu->delete();
+    }
+
+    public function restore()
+    {
+        $Menu = new MenuEvent();
+        $Menu->restore();
+    }
+
+    public function sync()
+    {
+        $Menu = new MenuEvent();
+
+
+     }
+
+
+    public function advance()
     {
         $this->display();
 

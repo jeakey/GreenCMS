@@ -17,7 +17,7 @@ class ApiController extends WeixinCoreController
     public function index()
     {
 
-        \Think\Log::record('收到消息' . date('Ymd H:m:s').'Form:'.get_client_ip());
+        \Think\Log::record('收到消息' . date('Ymd H:m:s') . 'Form:' . get_client_ip());
 
         $weixin = new ThinkWechat (get_opinion('weixin_token'));
 
@@ -157,11 +157,21 @@ class ApiController extends WeixinCoreController
     public function menu()
     {
 
+
         $Menu = new \Weixin\Event\MenuEvent();
 
-        $Menu->create();
-        $Menu->get();
+        //   $Menu->restore();
 
+        //from remote
+        $menu_array = json_decode($Menu->get(), true);
+
+        //from db
+        $Weixin_menu_decode = json_decode(trim(C('Weixin_menu')), true);
+
+
+        $menu = decodeUnicode(json_encode($Weixin_menu_decode));
+
+        dump($Menu->create($menu));
     }
 
     public function access()

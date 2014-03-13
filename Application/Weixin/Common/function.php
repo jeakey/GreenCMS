@@ -51,11 +51,12 @@ function getMenuButtons()
 }
 
 
-function simple_post($url,$data){
+function simple_post($url, $data)
+{
 
 
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL,$url );
+    curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
@@ -76,7 +77,6 @@ function simple_post($url,$data){
 }
 
 
-
 /**
  *
  * @package 二维数组排序
@@ -90,28 +90,29 @@ function simple_post($url,$data){
  *
  *          sysSortArray($Array,&quot;Key1&quot;,&quot;SORT_ASC&quot;,&quot;SORT_RETULAR&quot;,&quot;Key2&quot;……)
  * @param array $ArrayData
- *        	the array to sort.
+ *            the array to sort.
  * @param string $KeyName1
- *        	the first item to sort by.
+ *            the first item to sort by.
  * @param string $SortOrder1
- *        	the order to sort by(&quot;SORT_ASC&quot;|&quot;SORT_DESC&quot;)
+ *            the order to sort by(&quot;SORT_ASC&quot;|&quot;SORT_DESC&quot;)
  * @param string $SortType1
- *        	the sort
- *        	type(&quot;SORT_REGULAR&quot;|&quot;SORT_NUMERIC&quot;|&quot;SORT_STRING&quot;)
+ *            the sort
+ *            type(&quot;SORT_REGULAR&quot;|&quot;SORT_NUMERIC&quot;|&quot;SORT_STRING&quot;)
  * @return array sorted array.
  */
-function sysSortArray($ArrayData, $KeyName1, $SortOrder1 = "SORT_ASC", $SortType1 = "SORT_REGULAR") {
-    if (! is_array ( $ArrayData )) {
+function sysSortArray($ArrayData, $KeyName1, $SortOrder1 = "SORT_ASC", $SortType1 = "SORT_REGULAR")
+{
+    if (!is_array($ArrayData)) {
         return $ArrayData;
     }
 
     // Get args number.
-    $ArgCount = func_num_args ();
+    $ArgCount = func_num_args();
 
     // Get keys to sort by and put them to SortRule array.
-    for($I = 1; $I < $ArgCount; $I ++) {
-        $Arg = func_get_arg ( $I );
-        if (! eregi ( "SORT", $Arg )) {
+    for ($I = 1; $I < $ArgCount; $I++) {
+        $Arg = func_get_arg($I);
+        if (!eregi("SORT", $Arg)) {
             $KeyNameList [] = $Arg;
             $SortRule [] = '$' . $Arg;
         } else {
@@ -120,15 +121,21 @@ function sysSortArray($ArrayData, $KeyName1, $SortOrder1 = "SORT_ASC", $SortType
     }
 
     // Get the values according to the keys and put them to array.
-    foreach ( $ArrayData as $Key => $Info ) {
-        foreach ( $KeyNameList as $KeyName ) {
+    foreach ($ArrayData as $Key => $Info) {
+        foreach ($KeyNameList as $KeyName) {
             ${
             $KeyName} [$Key] = $Info [$KeyName];
         }
     }
 
     // Create the eval string and eval it.
-    $EvalString = 'array_multisort(' . join ( ",", $SortRule ) . ',$ArrayData);';
-    eval ( $EvalString );
+    $EvalString = 'array_multisort(' . join(",", $SortRule) . ',$ArrayData);';
+    eval ($EvalString);
     return $ArrayData;
+}
+
+
+function decodeUnicode($str)
+{
+    return preg_replace_callback('/\\\\u([0-9a-f]{4})/i', create_function('$matches', 'return mb_convert_encoding(pack("H*", $matches[1]), "UTF-8", "UCS-2BE");'), $str);
 }
