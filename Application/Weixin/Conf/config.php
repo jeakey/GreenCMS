@@ -37,8 +37,7 @@ $menu_arr = array(
 
         'Menu'    => array(
             'Menu/index'   => '菜单管理',
-            'Menu/advance' => '高级管理',
-        ),
+         ),
 
         'Rule'    => array(
             'Rule/index' => '规则管理',

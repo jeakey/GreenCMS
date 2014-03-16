@@ -167,8 +167,6 @@ class ApiController extends WeixinCoreController
 
         //from db
         $Weixin_menu_decode = json_decode(trim(C('Weixin_menu')), true);
-
-
         $menu = decodeUnicode(json_encode($Weixin_menu_decode));
 
         dump($Menu->create($menu));

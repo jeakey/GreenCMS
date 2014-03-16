@@ -61,9 +61,46 @@
             <div class="row-fluid">
                 <div class="span12">
 
-                    empty
 
-                   </div>
+                    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                    <form action="{$form_action}" name="change" class="form-horizontal"
+                          method="post">
+
+                        <div class="control-group">
+                            <label class="control-label">名称</label>
+
+                            <div class="controls">
+                                <input type="text" placeholder="" class="m-wrap large" name="name"
+                                       value="{$weixin_menu_now.name}"/>
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="control-group">
+                            <label class="control-label">URL</label>
+
+                            <div class="controls">
+                                <input type="text" placeholder="" class="m-wrap large" name="url"
+                                       value="{$weixin_menu_now.url}"/>
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn blue"><i class="icon-ok"></i>{$action_name}</button>
+                        </div>
+
+                    </form>
+
+
+
+
+                </div>
             </div>
             <!-- END PAGE CONTENT-->
         </div>

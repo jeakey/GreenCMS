@@ -13,16 +13,20 @@ function getRealText($keyword)
         return '文本';
     elseif ($keyword == 'click') {
         return '点击';
+    } elseif ($keyword == 'view') {
+        return '直链';
     } elseif ($keyword == 'news') {
         return '图文';
     } elseif ($keyword == 'text') {
         return '文本';
     } elseif ($keyword == 'image') {
         return '图片';
-    } elseif ($keyword == 0) {
+    } elseif ($keyword === 0) {
         return '已';
-    } elseif ($keyword == 1) {
+    } elseif ($keyword === 1) {
         return '未';
+    } else {
+        return '';
     }
 
 }
@@ -32,7 +36,7 @@ function getMenuButtons()
     $menu = trim(C('Weixin_menu'));
 
     $menu = json_decode($menu, true);
-    $array = $menu['menu']['button'];
+    $array = $menu['button'];
 
     static $result_array = array();
     foreach ($array as $value) {
@@ -123,8 +127,7 @@ function sysSortArray($ArrayData, $KeyName1, $SortOrder1 = "SORT_ASC", $SortType
     // Get the values according to the keys and put them to array.
     foreach ($ArrayData as $Key => $Info) {
         foreach ($KeyNameList as $KeyName) {
-            ${
-            $KeyName} [$Key] = $Info [$KeyName];
+            ${$KeyName} [$Key] = $Info [$KeyName];
         }
     }
 
@@ -138,4 +141,19 @@ function sysSortArray($ArrayData, $KeyName1, $SortOrder1 = "SORT_ASC", $SortType
 function decodeUnicode($str)
 {
     return preg_replace_callback('/\\\\u([0-9a-f]{4})/i', create_function('$matches', 'return mb_convert_encoding(pack("H*", $matches[1]), "UTF-8", "UCS-2BE");'), $str);
+}
+
+
+function array_insert(&$array, $position, $insert_array)
+{
+    $first_array = array_splice($array, 0, $position);
+
+    array_push($first_array, $insert_array);
+    $array = array_merge($first_array, $array);
+}
+
+function get_alink($url){
+
+    if(empty($url))return '';
+    else return '<a href="'.$url.'">点击查看</a>';
 }

@@ -90,7 +90,7 @@ class MenuEvent extends WeixinCoreController
 
 }';
 
-        $this->create($data);
+        return $this->create($data);
     }
 
 
@@ -144,6 +144,14 @@ class MenuEvent extends WeixinCoreController
         //    $res = D('Options')->where(array('option_name' => 'Weixin_menu'))->data($data)->save();
 
         return $menu_json;
+    }
+
+    public function save($menu_json)
+    {
+        $data['option_value'] = $menu_json;
+        $res = D('Options')->where(array('option_name' => 'Weixin_menu'))->data($data)->save();
+
+        return $res;
     }
 
 
